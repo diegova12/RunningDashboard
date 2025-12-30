@@ -185,5 +185,5 @@ if __name__ == "__main__":
         token_data = exchange_code_for_token(auth_code)
         
         if token_data:
-            print("\n✅ Authentication complete!")
+            print("\nAuthentication complete!")
             print(f"\nYou can now use the API!")

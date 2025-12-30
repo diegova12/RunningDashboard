@@ -17,7 +17,6 @@ from database.models import Activity, get_session
 # Page configuration
 st.set_page_config(
     page_title="Running Performance Analyzer",
-    page_icon="🏃‍♂️",
     layout="wide",
     initial_sidebar_state="expanded"
 )
@@ -328,12 +327,10 @@ def recommend_training_plan(df, goal_distance, goal_time_seconds, weeks_availabl
     }
 
 
-# ===========================
-# MAIN APP
-# ===========================
+# Main App
 
 # Title
-st.title("🏃 Running Performance Analyzer")
+st.title("Running Performance Analyzer")
 st.markdown("Advanced analytics dashboard for tracking and improving your running performance")
 st.markdown("---")
 
@@ -344,29 +341,26 @@ if len(df) == 0:
     st.error("No running data found. Please load data from Strava first.")
     st.stop()
 
-# ===========================
-# SIDEBAR
-# ===========================
-
-st.sidebar.header("🔍 Filters & Actions")
+# Sidebar
+st.sidebar.header("Filters & Actions")
 
 # Refresh button
-st.sidebar.subheader("⚡ Data Management")
-if st.sidebar.button("🔄 Refresh from Strava"):
+st.sidebar.subheader("Data Management")
+if st.sidebar.button("Refresh from Strava"):
     with st.spinner("Fetching new activities from Strava..."):
         success, message, count = refresh_data_from_strava()
         
         if success:
             st.cache_data.clear()
-            st.sidebar.success(f"✅ {message}")
+            st.sidebar.success(f"{message}")
             st.rerun()
         else:
-            st.sidebar.error(f"❌ {message}")
+            st.sidebar.error(f"{message}")
 
 st.sidebar.markdown("---")
 
 # Date range filter
-st.sidebar.subheader("📅 Date Range")
+st.sidebar.subheader("Date Range")
 min_date = df['date'].min().date()
 max_date = df['date'].max().date()
 
@@ -386,24 +380,18 @@ else:
 
 st.sidebar.info(f"Showing {len(filtered_df)} of {len(df)} runs")
 
-# ===========================
-# MAIN TABS
-# ===========================
-
+# Main Tabs
 tab1, tab2, tab3, tab4, tab5 = st.tabs([
-    "📊 Overview", 
-    "🏆 Personal Records", 
-    "📈 Analytics", 
-    "🤖 AI Predictions",
-    "📋 Training Plans"
+    "Overview", 
+    "Personal Records", 
+    "Analytics", 
+    "AI Predictions",
+    "Training Plans"
 ])
 
-# ===========================
-# TAB 1: OVERVIEW
-# ===========================
-
+# Tab 1: Overview
 with tab1:
-    st.header("📊 Overview")
+    st.header("Overview")
     
     # Metrics
     col1, col2, col3, col4 = st.columns(4)
@@ -424,7 +412,7 @@ with tab1:
     st.markdown("---")
     
     # Recent Activity
-    st.subheader("📅 Recent Activity")
+    st.subheader("Recent Activity")
     recent_df = filtered_df.sort_values('date', ascending=False).head(10)
     st.dataframe(
         recent_df[['date', 'name', 'distance_miles', 'pace_min_per_mile', 'time_minutes']],
@@ -434,7 +422,7 @@ with tab1:
     st.markdown("---")
     
     # Miles Over Time
-    st.subheader("📈 Miles Over Time")
+    st.subheader("Miles Over Time")
     df_sorted = filtered_df.sort_values('date')
     fig = px.line(df_sorted, x='date', y='distance_miles', 
                   title='Distance by Run',
@@ -447,7 +435,7 @@ with tab1:
     col1, col2 = st.columns(2)
     
     with col1:
-        st.subheader("🏃‍♂️ Pace Distribution")
+        st.subheader("Pace Distribution")
         fig_pace = px.histogram(
             filtered_df, 
             x='pace_min_per_mile',
@@ -458,7 +446,7 @@ with tab1:
         st.plotly_chart(fig_pace, width="stretch")
     
     with col2:
-        st.subheader("📏 Distance Distribution")
+        st.subheader("Distance Distribution")
         fig_dist = px.histogram(
             filtered_df,
             x='distance_miles',
@@ -471,7 +459,7 @@ with tab1:
     st.markdown("---")
     
     # Scatter plot
-    st.subheader("📊 Distance vs Pace")
+    st.subheader("Distance vs Pace")
     valid_scatter_data = filtered_df.dropna(subset=['distance_miles', 'pace_min_per_mile'])
     
     if len(valid_scatter_data) > 0:
@@ -490,7 +478,7 @@ with tab1:
     st.markdown("---")
     
     # Monthly mileage
-    st.subheader("📅 Monthly Mileage")
+    st.subheader("Monthly Mileage")
     filtered_df_copy = filtered_df.copy()
     filtered_df_copy['year_month'] = filtered_df_copy['date'].dt.to_period('M').astype(str)
     monthly_miles = filtered_df_copy.groupby('year_month')['distance_miles'].sum().reset_index()
@@ -504,12 +492,9 @@ with tab1:
     )
     st.plotly_chart(fig_monthly, width="stretch")
 
-# ===========================
-# TAB 2: PERSONAL RECORDS
-# ===========================
-
+# Tab 2: Personal Records
 with tab2:
-    st.header("🏆 Personal Records")
+    st.header("Personal Records")
     
     prs = calculate_prs(df)
     
@@ -518,7 +503,7 @@ with tab2:
         
         # Display PRs
         for distance, record in prs.items():
-            with st.expander(f"🏅 {distance}", expanded=True):
+            with st.expander(f"{distance}", expanded=True):
                 col1, col2, col3 = st.columns(3)
                 
                 with col1:
@@ -539,7 +524,7 @@ with tab2:
     st.markdown("---")
     
     # Training Zones
-    st.subheader("🎯 Your Training Zones")
+    st.subheader("Your Training Zones")
     zones, best_pace = calculate_training_zones(df)
     
     st.info(f"Based on your best pace of {best_pace:.2f} min/mile")
@@ -547,15 +532,12 @@ with tab2:
     for zone_name, (slow, fast) in zones.items():
         st.write(f"**{zone_name}**: {fast:.2f} - {slow:.2f} min/mile")
 
-# ===========================
-# TAB 3: ANALYTICS
-# ===========================
-
+# Tab 3: Analytics
 with tab3:
-    st.header("📈 Advanced Analytics")
+    st.header("Advanced Analytics")
     
     # Compare time periods
-    st.subheader("📊 Compare Time Periods")
+    st.subheader("Compare Time Periods")
     
     col1, col2 = st.columns(2)
     
@@ -584,12 +566,12 @@ with tab3:
     if len(last_month_df) > 0 and len(this_month_df) > 0:
         miles_change = ((this_month_df['distance_miles'].sum() - last_month_df['distance_miles'].sum()) / 
                        last_month_df['distance_miles'].sum() * 100)
-        st.info(f"📈 Month-over-month mileage change: {miles_change:+.1f}%")
+        st.info(f"Month-over-month mileage change: {miles_change:+.1f}%")
     
     st.markdown("---")
     
     # Training Consistency Heatmap
-    st.subheader("🗓️ Training Consistency Heatmap")
+    st.subheader("Training Consistency Heatmap")
     
     # Create calendar heatmap data (GitHub-style)
     df_cal = df.copy()
@@ -660,7 +642,7 @@ with tab3:
     st.markdown("---")
     
     # Weekly mileage trend
-    st.subheader("📊 Weekly Mileage Trend")
+    st.subheader("Weekly Mileage Trend")
     
     weekly_miles = df.groupby([df['date'].dt.year, df['date'].dt.isocalendar().week])['distance_miles'].sum().reset_index()
     weekly_miles.columns = ['year', 'week', 'miles']
@@ -675,15 +657,12 @@ with tab3:
     )
     st.plotly_chart(fig_weekly, width="stretch")
 
-# ===========================
-# TAB 4: AI PREDICTIONS
-# ===========================
-
+# Tab 4: AI Predictions
 with tab4:
-    st.header("🤖 AI-Powered Predictions")
+    st.header("AI-Powered Predictions")
     
     # Race time predictions
-    st.subheader("🏁 Race Time Predictions")
+    st.subheader("Race Time Predictions")
     st.info("Based on your current fitness using the Riegel formula")
     
     predictions = predict_race_times(df)
@@ -710,7 +689,7 @@ with tab4:
     st.markdown("---")
     
     # Performance forecast
-    st.subheader("📈 Performance Forecast")
+    st.subheader("Performance Forecast")
     
     forecast = forecast_performance(df)
     
@@ -735,9 +714,9 @@ with tab4:
                          f"{change_90:.2f}")
         
         if forecast['trend'] == 'improving':
-            st.success("📈 Your pace is trending faster! Keep up the great work!")
+            st.success("Your pace is trending faster! Keep up the great work!")
         else:
-            st.info("📊 Your pace is steady. Consider adding speed work to improve.")
+            st.info("Your pace is steady. Consider adding speed work to improve.")
     else:
         st.warning("Need at least 10 runs in the last 6 months for forecasting")
     
@@ -745,12 +724,9 @@ with tab4:
     
     st.markdown("---")
 
-# ===========================
-# TAB 5: TRAINING PLANS
-# ===========================
-
+# Tab 5: Training Plans
 with tab5:
-    st.header("📋 Training Plan Generator")
+    st.header("Training Plan Generator")
     
     st.info("Get a personalized training plan based on your goal race and current fitness")
     
@@ -784,7 +760,7 @@ with tab5:
         
         plan = recommend_training_plan(df, goal_distance, goal_time_seconds, weeks_to_race)
         
-        st.success("✅ Personalized Training Plan Generated!")
+        st.success("Personalized Training Plan Generated!")
         
         # Display Plan Overview
         col1, col2, col3 = st.columns(3)
@@ -798,7 +774,7 @@ with tab5:
         st.markdown("---")
         
         # Visualizing the Progression
-        st.subheader("📈 Weekly Mileage Progression")
+        st.subheader("Weekly Mileage Progression")
         schedule_df = plan['schedule']
         
         # Create a bar chart for mileage
@@ -818,7 +794,7 @@ with tab5:
         st.plotly_chart(fig, width="stretch")
         
         # Table View
-        with st.expander("📝 View Detailed Schedule"):
+        with st.expander("View Detailed Schedule"):
             st.dataframe(
                 schedule_df.style.format({
                     "Mileage": "{:.1f}",
