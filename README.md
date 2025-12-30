@@ -5,17 +5,17 @@ An advanced analytics dashboard built with [Streamlit](https://streamlit.io/) to
 
 ## 🚀 Features
 
-- ** Overview**: Visualize your running history with interactive charts for distance, pace, and consistency.
-- ** Personal Records Tracker**: Automatically detects and tracks your best times for 1 Mile, 5K, 10K, Half Marathon, and Marathon.
-- ** Advanced Analytics**: 
+- **Overview**: Visualize your running history with interactive charts for distance, pace, and consistency.
+- **Personal Records Tracker**: Automatically detects and tracks your best times for 1 Mile, 5K, 10K, Half Marathon, and Marathon.
+- **Advanced Analytics**: 
   - Compare performance across different time periods (e.g., this month vs. last month)
   - GitHub-style **Training Consistency Calendar** heatmap
   - Distance vs. Pace correlation analysis
-- ** AI-Powered Predictions**:
+- **AI-Powered Predictions**:
   - **Race Time Predictor**: Estimates your potential race times using the Riegel formula based on current fitness.
   - **Performance Forecasting**: Uses linear regression to forecast your future pace trends over the next 30-90 days.
-  - **Optimal Training Paces**: Calculates personalized training zones (Recovery, Threshold, Interval, etc.) based on recent performance.
-- ** Training Plan Generator**: Generates a customized weekly training structure based on your specific goal race and time target.
+  - **Optimal Training Paces**: Calculates personalized training zones (Recovery, Tempo, Interval, etc.) based on recent performance.
+- **Training Plan Generator**: Generates a customized weekly training structure based on your specific goal race and time target.
 
 ## 🛠️ Technology Stack
 
