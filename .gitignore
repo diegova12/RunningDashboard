@@ -1,0 +1,27 @@
+# Sensitive Data / Credentials
+.env
+data/strava_token.json
+data/running_data.db
+data/raw/strava_activities.csv
+
+# Virtual Environments
+venv/
+env/
+.venv/
+
+# Python Cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# OS Specific
+.DS_Store
+.AppleDouble
+.LSOverride
+Thumbs.db
+
+# IDE Specific
+.vscode/
+.idea/
+*.swp
